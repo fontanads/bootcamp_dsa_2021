@@ -56,11 +56,3 @@ def plot_timeseries_casos_por_obitos(df_estado):
     ax.set_yticklabels(labels=10**np.array(range(5)))
 
     return fig
-
-    # 
-    # 
-
-    # 
-    # plt.show()
-
-    return sns_fig
