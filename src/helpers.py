@@ -3,25 +3,6 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 
-# from zipfile import ZipFile
-# import requests 
-
-# def download_url(url, save_path, chunk_size=128):
-#     r = requests.get(url, stream=True)
-#     with open(save_path, 'wb') as fd:
-#         for chunk in r.iter_content(chunk_size=chunk_size):
-#             fd.write(chunk)
-
-def load_dataframe(caminho, verbose=True):
-    arquivo = ZipFile(caminho)
-    if verbose:
-        for i,f in enumerate(arquivo.namelist()):
-            print(f' ({i}) {f}')
-    file_to_load_df = arquivo.namelist()[0]
-
-    df = pd.read_csv(arquivo.open(file_to_load_df), sep=';')
-    return df
-
 def preprocessamento(df):
     df['data'] = pd.to_datetime(df['data'])
     df['obitos_por_casos_novos']     = 100*(df['obitosNovos']/df['casosNovos'])
@@ -62,7 +43,5 @@ def plot_timeseries_casos_por_obitos(df_estado, casos_por_obitos=1):
 
     ax.legend(['Novos','Acumulados'])
     ax.set_title(f'Série para o {df_estado.axes[1].name}')
-    
-
 
     return fig
