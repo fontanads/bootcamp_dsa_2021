@@ -3,14 +3,14 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 
-from zipfile import ZipFile
-import requests 
+# from zipfile import ZipFile
+# import requests 
 
-def download_url(url, save_path, chunk_size=128):
-    r = requests.get(url, stream=True)
-    with open(save_path, 'wb') as fd:
-        for chunk in r.iter_content(chunk_size=chunk_size):
-            fd.write(chunk)
+# def download_url(url, save_path, chunk_size=128):
+#     r = requests.get(url, stream=True)
+#     with open(save_path, 'wb') as fd:
+#         for chunk in r.iter_content(chunk_size=chunk_size):
+#             fd.write(chunk)
 
 def load_dataframe(caminho, verbose=True):
     arquivo = ZipFile(caminho)

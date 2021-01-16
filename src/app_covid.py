@@ -3,6 +3,10 @@ import pandas as pd
 import numpy as np
 # import matplotlib.pyplot as plt 
 
+from zipfile import ZipFile
+import requests 
+
+
 # from helpers import preprocessamento, download_url, load_dataframe, casos_por_obitos_do_estado, plot_timeseries_casos_por_obitos
 
 # @st.cache
@@ -17,6 +21,13 @@ import numpy as np
 #     df_estado = casos_por_obitos_do_estado(df, estado=estado_selecionado, casos_por_obitos=casos_por_obitos)
 #     figura = plot_timeseries_casos_por_obitos(df_estado, casos_por_obitos=casos_por_obitos)
 #     return figura
+
+
+def download_url(url, save_path, chunk_size=128):
+    r = requests.get(url, stream=True)
+    with open(save_path, 'wb') as fd:
+        for chunk in r.iter_content(chunk_size=chunk_size):
+            fd.write(chunk)
 
 def main():
     # df, todos_os_estados = carrega_dataframe(output_path)
