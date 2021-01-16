@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt 
+# import matplotlib.pyplot as plt 
 
 from helpers import preprocessamento, download_url, load_dataframe, casos_por_obitos_do_estado, plot_timeseries_casos_por_obitos
 
