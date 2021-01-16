@@ -45,6 +45,6 @@ def main():
 
 if __name__ == '__main__':
     url         = 'https://github.com/fontanads/bootcamp_dsa_2021/raw/main/data/HIST_PAINEL_COVIDBR_12jan2021.zip'    
-    output_path = 'HIST_PAINEL_COVIDBR_12jan2021.zip'
+    output_path = '~/HIST_PAINEL_COVIDBR_12jan2021.zip'
     download_url(url, output_path) 
     main()
