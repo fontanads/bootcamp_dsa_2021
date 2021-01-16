@@ -9,7 +9,7 @@ import urllib3
 
 from helpers import preprocessamento, load_dataframe, casos_por_obitos_do_estado, plot_timeseries_casos_por_obitos
 
-@st.cache
+# @st.cache
 def carrega_dataframe(csv_file):
     df = pd.read_csv(csv_file, sep=';')
     df = preprocessamento(df)
