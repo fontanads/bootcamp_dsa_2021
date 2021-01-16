@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt 
 
 from zipfile import ZipFile
-import requests 
+import urllib.request 
 
 
 # from helpers import preprocessamento, download_url, load_dataframe, casos_por_obitos_do_estado, plot_timeseries_casos_por_obitos
@@ -23,11 +23,9 @@ import requests
 #     return figura
 
 
-def download_url(url, save_path, chunk_size=128):
-    r = requests.get(url, stream=True)
-    with open(save_path, 'wb') as fd:
-        for chunk in r.iter_content(chunk_size=chunk_size):
-            fd.write(chunk)
+def download_url(url, save_path):
+    urllib.request.urlretrieve(url, save_path)
+
 
 def main():
     # df, todos_os_estados = carrega_dataframe(output_path)
@@ -45,6 +43,6 @@ def main():
 
 if __name__ == '__main__':
     url         = 'https://github.com/fontanads/bootcamp_dsa_2021/raw/main/data/HIST_PAINEL_COVIDBR_12jan2021.zip'    
-    output_path = '~/HIST_PAINEL_COVIDBR_12jan2021.zip'
+    output_path = 'HIST_PAINEL_COVIDBR_12jan2021.zip'
     download_url(url, output_path) 
     main()
