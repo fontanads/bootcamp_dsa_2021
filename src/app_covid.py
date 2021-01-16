@@ -4,8 +4,8 @@ import numpy as np
 import matplotlib.pyplot as plt 
 
 from zipfile import ZipFile
-from StringIO import StringIO
-import urllib2
+from io import StringIO
+import urllib3
 
 # from helpers import preprocessamento, download_url, load_dataframe, casos_por_obitos_do_estado, plot_timeseries_casos_por_obitos
 
@@ -24,7 +24,7 @@ import urllib2
 
 
 def download_url(url, save_path):
-    urllib.request.urlretrieve(url, save_path)
+    urllib2.request.urlretrieve(url, save_path)
 
 
 def main():
@@ -45,7 +45,8 @@ def main():
 if __name__ == '__main__':
     url         = 'https://github.com/fontanads/bootcamp_dsa_2021/raw/main/data/HIST_PAINEL_COVIDBR_12jan2021.zip'    
     filename    = 'HIST_PAINEL_COVIDBR_12jan2021.csv'
-    r = urllib2.urlopen(url).read()
-    zip_file = ZipFile(StringIO(r))
+    http = urllib3.PoolManager() 
+    r = http.request('GET', url)
+    zip_file = ZipFile(StringIO(r.data))
     csv_file = zip_file.open(filename)
     main()
