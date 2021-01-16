@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt 
 
 from zipfile import ZipFile
-from io import StringIO
+from io import BytesIO
 import urllib3
 
 # from helpers import preprocessamento, download_url, load_dataframe, casos_por_obitos_do_estado, plot_timeseries_casos_por_obitos
@@ -47,6 +47,6 @@ if __name__ == '__main__':
     filename    = 'HIST_PAINEL_COVIDBR_12jan2021.csv'
     http = urllib3.PoolManager() 
     r = http.request('GET', url)
-    zip_file = ZipFile(StringIO(r.data))
-    csv_file = zip_file.open(filename)
+    zip_file = ZipFile(BytesIO(r.data))
+csv_file = zip_file.open(filename)
     main()
