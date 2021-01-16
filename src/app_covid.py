@@ -7,15 +7,15 @@ from zipfile import ZipFile
 from io import BytesIO
 import urllib3
 
-# from helpers import preprocessamento, download_url, load_dataframe, casos_por_obitos_do_estado, plot_timeseries_casos_por_obitos
+from helpers import preprocessamento, load_dataframe, casos_por_obitos_do_estado, plot_timeseries_casos_por_obitos
 
-# @st.cache
-# def carrega_dataframe(output_path):
-#     df = load_dataframe(output_path)
-#     df = preprocessamento(df)
-#     todos_os_estados   = sorted(df['estado'].dropna().unique().tolist())
-#     todos_os_estados.insert(0,'Brasil')
-#     return df, todos_os_estados
+@st.cache
+def carrega_dataframe(csv_file):
+    df = pd.read_csv(csv_file, sep=';')
+    df = preprocessamento(df)
+    todos_os_estados   = sorted(df['estado'].dropna().unique().tolist())
+    todos_os_estados.insert(0,'Brasil')
+    return df, todos_os_estados
 
 # def carrega_dados_e_plota(df, estado_selecionado, casos_por_obitos='Casos por óbito'):
 #     df_estado = casos_por_obitos_do_estado(df, estado=estado_selecionado, casos_por_obitos=casos_por_obitos)
@@ -23,13 +23,17 @@ import urllib3
 #     return figura
 
 
-def download_url(url, save_path):
-    urllib2.request.urlretrieve(url, save_path)
+def download_url(url, filename):
+    http = urllib3.PoolManager() 
+    r = http.request('GET', url)
+    zip_file = ZipFile(BytesIO(r.data))
+    csv_file = zip_file.open(filename)
+    return csv_file
 
 
 def main():
-    df = pd.read_csv(csv_file, sep=';')
-    # df, todos_os_estados = carrega_dataframe(output_path)
+    
+    df, todos_os_estados = carrega_dataframe(csv_file)
 
     st.title('Análise de Registros de Caso e Óbitos de COVID-19 no Brasil')
     # st.markdown('Abaixo um **dataframe**:')
@@ -45,8 +49,5 @@ def main():
 if __name__ == '__main__':
     url         = 'https://github.com/fontanads/bootcamp_dsa_2021/raw/main/data/HIST_PAINEL_COVIDBR_12jan2021.zip'    
     filename    = 'HIST_PAINEL_COVIDBR_12jan2021.csv'
-    http = urllib3.PoolManager() 
-    r = http.request('GET', url)
-    zip_file = ZipFile(BytesIO(r.data))
-csv_file = zip_file.open(filename)
+    csv_file = download_url(url, filename)    
     main()
