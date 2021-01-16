@@ -32,8 +32,6 @@ def download_url(url, filename):
 
 
 def main():
-    
-    df, todos_os_estados = carrega_dataframe(csv_file)
 
     st.title('Análise de Registros de Caso e Óbitos de COVID-19 no Brasil')
     # st.markdown('Abaixo um **dataframe**:')
@@ -50,4 +48,6 @@ if __name__ == '__main__':
     url         = 'https://github.com/fontanads/bootcamp_dsa_2021/raw/main/data/HIST_PAINEL_COVIDBR_12jan2021.zip'    
     filename    = 'HIST_PAINEL_COVIDBR_12jan2021.csv'
     csv_file = download_url(url, filename)    
+    df, todos_os_estados = carrega_dataframe(csv_file)
+    
     main()
