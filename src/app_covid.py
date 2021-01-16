@@ -22,15 +22,15 @@ def main():
     df, todos_os_estados = carrega_dataframe(output_path)
 
     st.title('Análise de Registros de Caso e Óbitos de COVID-19 no Brasil')
-    st.markdown('Abaixo um **dataframe**:')
+    # st.markdown('Abaixo um **dataframe**:')
     # st.text_area('area51','aqui uma área de texto (sem formatação?)')
     # st.dataframe(df_estado.set_index('data').loc['2020-10':'2021-01'])
 
-    casos_por_obitos =   st.sidebar.selectbox('Selecione o Estado', ['Casos por óbito','Óbitos por caso'], index=0)
-    estado_selecionado = st.sidebar.selectbox('Selecione o Estado', todos_os_estados, index=0)
+    # casos_por_obitos =   st.sidebar.selectbox('Selecione o Estado', ['Casos por óbito','Óbitos por caso'], index=0)
+    # estado_selecionado = st.sidebar.selectbox('Selecione o Estado', todos_os_estados, index=0)
 
-    figura = carrega_dados_e_plota(df, estado_selecionado, casos_por_obitos=casos_por_obitos)
-    st.pyplot(fig=figura)
+    # figura = carrega_dados_e_plota(df, estado_selecionado, casos_por_obitos=casos_por_obitos)
+    # st.pyplot(fig=figura)
 
 if __name__ == '__main__':
     url         = 'https://github.com/fontanads/bootcamp_dsa_2021/raw/main/data/HIST_PAINEL_COVIDBR_12jan2021.zip'    
