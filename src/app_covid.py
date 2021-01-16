@@ -48,5 +48,5 @@ if __name__ == '__main__':
     http = urllib3.PoolManager() 
     r = http.request('GET', url)
     zip_file = ZipFile(BytesIO(r.data))
-csv_file = zip_file.open(filename)
+    csv_file = zip_file.open(filename)
     main()
