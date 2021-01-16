@@ -49,5 +49,12 @@ def main():
 if __name__ == '__main__':
     url         = 'https://github.com/fontanads/bootcamp_dsa_2021/raw/main/data/HIST_PAINEL_COVIDBR_12jan2021.zip'    
     filename    = 'HIST_PAINEL_COVIDBR_12jan2021.csv'
+<<<<<<< HEAD
     csv_file = download_url(url, filename)    
+=======
+    http = urllib3.PoolManager() 
+    r = http.request('GET', url)
+    zip_file = ZipFile(BytesIO(r.data))
+    csv_file = zip_file.open(filename)
+>>>>>>> 155cb658bad26be98a54fbbce106cf6f3c6b6ef8
     main()
