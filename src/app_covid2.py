@@ -14,6 +14,8 @@ import urllib3
 
 import datetime
 
+
+
 def download_url(url, filename):
     http = urllib3.PoolManager() 
     r = http.request('GET', url)
@@ -198,8 +200,7 @@ def estima_r0_dyn(df, estado, dates_tuple, window_size, eps, window_len_days, st
     return figs, df_vars_epi
 
 def main():
-
-    st.title('Análise de Registros de Caso e Óbitos de COVID-19 no Brasil')
+    st.title('Extraindo parâmetros epidemiológicos do modelo SIRD a partir dos dados COVID-19 no Brasil')
     
     # default: '2020-03-01' - '2021-02-01'
     default_dates = [datetime.date(2020, 3, 1), datetime.date(2021, 2, 1)]
