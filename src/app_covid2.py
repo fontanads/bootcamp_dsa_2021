@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 
 import plotly.offline as pyo
 import plotly.graph_objs as go
+from plotly import tools
 
 from statsmodels.regression.linear_model import OLS
 import statsmodels.api as sm
@@ -130,10 +131,10 @@ def estima_r0_dyn(df, estado, dates_tuple, window_size, eps, window_len_days, st
     ols_eq_gr = gamma_r*X+const_gr
 
     # traces fig Rdiff = gr*I
-    trace0 = get_trace(Y_gr.index, Y_gr.values, 'dR/dt')
-    trace1 = get_trace(ols_eq_gr.index, ols_eq_gr.values, 'OLS', color ='rgb(150,28,64)')
+    trace0_dRdt = get_trace(Y_gr.index, Y_gr.values, 'dR/dt')
+    trace1_dRdt = get_trace(ols_eq_gr.index, ols_eq_gr.values, 'OLS', color ='rgb(150,28,64)')
     
-    data = [trace0, trace1]
+    data = [trace0_dRdt, trace1_dRdt]
     fig1 = get_fig_from_traces(data,
     title=r'Estimando $\gamma_R$ a partir de R_diff e I', 
     xlabel='data', 
@@ -149,9 +150,9 @@ def estima_r0_dyn(df, estado, dates_tuple, window_size, eps, window_len_days, st
     ols_eq_gd = gamma_d*X + const_gd
 
     # traces fig Ddiff = gd*I
-    trace0 = get_trace(Y_gd.index, Y_gd.values, 'dD/dt')
-    trace1 = get_trace(ols_eq_gd.index, ols_eq_gd.values, 'OLS', color ='rgb(150,28,64)')
-    data = [trace0, trace1]
+    trace0_dDdt = get_trace(Y_gd.index, Y_gd.values, 'dD/dt')
+    trace1_dDdt = get_trace(ols_eq_gd.index, ols_eq_gd.values, 'OLS', color ='rgb(150,28,64)')
+    data = [trace0_dDdt, trace1_dDdt]
     fig2 = get_fig_from_traces(data,
     title=r'Estimando $\gamma_D$ a partir de D_diff e I', 
     xlabel='data', 
@@ -181,15 +182,56 @@ def estima_r0_dyn(df, estado, dates_tuple, window_size, eps, window_len_days, st
     ols_eq_b = beta*X + const_b
 
     # traces fig Idiff = beta*SI/N - gg*I
-    trace0 = get_trace(I_diff.index, I_diff.values, 'dI/dt')
-    trace1 = get_trace((ols_eq_b-ggI).index, (ols_eq_b-ggI).values, 'OLS', color ='rgb(150,28,64)')
-    data = [trace0, trace1]
+    trace0_dIdt = get_trace(I_diff.index, I_diff.values, r'dI/dt')
+    trace1_dIdt = get_trace((ols_eq_b-ggI).index, (ols_eq_b-ggI).values, 'OLS', color ='rgb(150,28,64)')
+    data = [trace0_dIdt, trace1_dIdt]
     fig3 = get_fig_from_traces(data,
     title=r'Estimando $\beta$ a partir de I_diff, I, S, N e \gamma (D+R)', 
-    xlabel='data', 
-    ylabel='dI/dt')
+    xlabel=r'data', 
+    ylabel=r'dI/dt')
 
-    figs = (fig1, fig2, fig3)
+    # prepare plotly view
+    figs_all = tools.make_subplots(rows=3, cols=2,
+                              subplot_titles=['I(t)','dI/dt', 'R(t)','dR/dt','D(t)','dD/dt'],
+                              shared_xaxes = True,
+                              shared_yaxes = False,  # this makes the hours appear only on the left
+                              )
+
+
+    I_curve    = df_temp['I']
+    I_curve, _ = moving_avg(I_curve,I_curve, window_size)
+    I_curve, _ = remove_outliers(I_curve,I_curve,eps)
+    trace_I = get_trace(I_curve.index, I_curve.values, r'I(t)')
+
+    R_curve    = df_temp['R']
+    R_curve, _ = moving_avg(R_curve,R_curve, window_size)
+    R_curve, _ = remove_outliers(R_curve,R_curve,eps)
+    trace_R = get_trace(R_curve.index, R_curve.values, r'R(t)')
+
+    D_curve    = df_temp['D']
+    D_curve, _ = moving_avg(D_curve,D_curve, window_size)
+    D_curve, _ = remove_outliers(D_curve,D_curve,eps)
+    trace_D = get_trace(D_curve.index, D_curve.values, r'D(t)')
+
+
+    figs_all.append_trace(trace_I, 1, 1)
+    figs_all.append_trace(trace0_dIdt, 1, 2)
+    figs_all.append_trace(trace1_dIdt, 1, 2)
+    
+    figs_all.append_trace(trace_R, 2, 1)
+    figs_all.append_trace(trace0_dRdt, 2, 2)
+    figs_all.append_trace(trace1_dRdt, 2, 2)
+
+    figs_all.append_trace(trace_D, 3, 1)
+    figs_all.append_trace(trace0_dDdt, 3, 2)
+    figs_all.append_trace(trace1_dDdt, 3, 2)
+    
+    figs_all['layout'].update(      # access the layout directly!
+    title=r'y(t) e dy/dt',
+    title_x=0.5
+    )
+
+    # figs = (fig1, fig2, fig_I)
 
     r0t = beta/(gamma_r+gamma_d)
     static_T_infec = 1/(gamma_r+gamma_d)
@@ -197,7 +239,7 @@ def estima_r0_dyn(df, estado, dates_tuple, window_size, eps, window_len_days, st
 
     df_vars_epi = pd.DataFrame({'vars':[r0t, beta, gamma_r, gamma_d, static_T_infec]}, index=['R0','beta','gamma_r','gamma_d','T_infec'])
 
-    return figs, df_vars_epi
+    return figs_all, df_vars_epi
 
 def main():
     st.title('Extraindo parâmetros epidemiológicos do modelo SIRD a partir dos dados COVID-19 no Brasil')
@@ -221,21 +263,23 @@ def main():
     st.write(r"**Estado atual**:", estado_selecionado)
 
     
-    figs, df_vars_epi = estima_r0_dyn(df, estado_selecionado, dates_tuple, window_size, eps/100, window_len_days, stride_val_days)
-    fig1, fig2, fig3 = figs
+    figs_all, df_vars_epi = estima_r0_dyn(df, estado_selecionado, dates_tuple, window_size, eps/100, window_len_days, stride_val_days)
+    # fig1, fig2, fig3 = figs
 
     # st.dataframe(df_vars_epi.style.highlight_max(axis=0))
     st.dataframe(df_vars_epi)
 
     # print plots
-    st.latex(r''' \gamma_R = \arg\min\limits_\gamma \dfrac{dR(t)}{dt} - \gamma I(t) ''')
-    st.plotly_chart(fig1)
+    st.plotly_chart(figs_all)
+    
+    # st.latex(r''' \gamma_R = \arg\min\limits_\gamma \dfrac{dR(t)}{dt} - \gamma I(t) ''')
+    # st.plotly_chart(fig1)
 
-    st.latex(r''' \gamma_D = \arg\min\limits_\gamma \dfrac{dD(t)}{dt} - \gamma I(t) ''')
-    st.plotly_chart(fig2)
+    # st.latex(r''' \gamma_D = \arg\min\limits_\gamma \dfrac{dD(t)}{dt} - \gamma I(t) ''')
+    # st.plotly_chart(fig2)
 
-    st.latex(r''' \beta = \arg\min\limits_{\beta^\prime} \dfrac{dI(t)}{dt} + (\gamma_R + \gamma_D) I(t) - \beta^\prime \dfrac{S(t)I(t)}{N(t)} ''')
-    st.plotly_chart(fig3)
+    # st.latex(r''' \beta = \arg\min\limits_{\beta^\prime} \dfrac{dI(t)}{dt} + (\gamma_R + \gamma_D) I(t) - \beta^\prime \dfrac{S(t)I(t)}{N(t)} ''')
+    # st.plotly_chart(fig3)
     
 
     
