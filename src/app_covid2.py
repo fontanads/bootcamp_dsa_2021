@@ -389,7 +389,7 @@ def main():
                      a pandemia acabaria espontaneamente, ao longo do tempo, se conseguíssemos manter $R<1$ tempo suficiente)
                      - $T_{\text{infec}}$ é o tempo médio que uma pessoa infectada permanece transmitindo o vírus antes de se recuperar (também podemos pensar na relação que isso tem no sistema de saúde regional,
                      por isso mantive a linha estática indicando esse valor estimado com a janela inteira, a fim de comparar com a janela deslizante; 
-                     mudando o último marcador para ```False`` você elimina a variação de $\gamma$, a taxa de recuperação, na estimativa de $\beta$)
+                     mudando o último marcador para ``False`` você elimina a variação de $\gamma$, a taxa de recuperação, na estimativa de $\beta$)
                      - a dependência no tempo acontece por tentar estimar o parâmetro em janelas "mais curtas" em relação ao tamanho completo do dataset (pode occorrer algum erro ao selecionar uma faixa de datas menor que a J),
                      considerando que na história da série houve muita mudança no cenário de medidas não-farmacêuticas de contenção da epidemia, no país e nas regiões.                     
                      ''')
