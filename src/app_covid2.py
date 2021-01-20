@@ -298,7 +298,7 @@ def dynamic_r0(df, dates_tuple, window_size, eps, window_len_days, stride_val_da
     figs_all.append_trace(trace_r0t, 2, 1)
     figs_all.append_trace(trace_r0s, 2, 1)
     figs_all.add_shape(type='line',y0=1,y1=1, x0=x[0], x1=x[-1], line=dict(color='rgb(0,0,0)'), xref='x2',yref='y2')
-    figs_all.update_yaxes(range=[.5, 2.5], row=2, col=1)
+    figs_all.update_yaxes(range=[.2, 4.0], row=2, col=1)
 
     figs_all.append_trace(trace_T_infec_rds, 3, 1)
     figs_all.add_shape(type='line',y0=static_T_infec,y1=static_T_infec, x0=x[0], x1=x[-1], line=dict(color='rgb(0,0,0)'), xref='x3',yref='y3')
@@ -336,7 +336,7 @@ def main():
 
     st.sidebar.subheader('Para a curva de R0(t) e Beta(t)/gamma(t):')
     window_len_days = st.sidebar.slider(r'J: num. de dias da janela de dados:',
-                                          min_value=2*window_size, max_value=max(60,2*window_size+1), value=max(30,2*window_size+1), step=1, format='%d', key=None) 
+                                          min_value=2*window_size, max_value=max(60,2*window_size+1), value=max(60,2*window_size+1), step=1, format='%d', key=None) 
     stride_val_days = st.sidebar.slider(r'stride: dias de avanço para a próxima janela:', 
                                           min_value=1, max_value=max(window_len_days,2),  value=1, step=1, format='%d', key=None) 
     dynamic_gamma = st.sidebar.radio("Assumir que Gamma também varia dependendo da janela?", [True, False], index=0)
@@ -347,7 +347,7 @@ def main():
 
     
     figs_all, df_vars_epi, (df_temp, static_T_infec, gammas_static) = estima_r0_dyn(df, estado_selecionado, dates_tuple, window_size, eps/100)
-    figs_R0t = dynamic_r0(df_temp, dates_tuple, window_size, eps, window_len_days, stride_val_days, static_T_infec, gammas_static, dynamic_gamma=dynamic_gamma)
+    figs_R0t = dynamic_r0(df_temp, dates_tuple, window_size, eps/100, window_len_days, stride_val_days, static_T_infec, gammas_static, dynamic_gamma=dynamic_gamma)
     
 
     # st.dataframe(df_vars_epi.style.highlight_max(axis=0))

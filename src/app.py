@@ -16,7 +16,7 @@ def layout(*args):
     <style>
       # MainMenu {visibility: hidden;}
       footer {visibility: hidden;}
-     .stApp { bottom: 105px; }
+     .stApp { bottom: 105px;  }
     </style>
     """
     style_div = styles(
@@ -28,13 +28,13 @@ def layout(*args):
         color="black",
         text_align="center",
         height="auto",
-        opacity=1
+        opacity=0.75
     )
     style_hr = styles(
         display="block",
-        margin=px(8, 8, "auto", "auto"),
+        margin=px(8, 8, 0, 0),
         border_style="inset",
-        border_width=px(2)
+        border_width=px(1)
     )
     body = p()
     foot = div(
@@ -61,8 +61,8 @@ def footer():
         " with ❤️ by ",
         link("https://github.com/fontanads", "@fontanads"),
         br(),
-        link("https://github.com/fontanads/bootcamp_dsa_2021/", image('../pics/GitHub-Mark/PNG/GitHub-Mark-32px.png')),
-        link("https://twitter.com/ChristianKlose3", "footer made by @ChristianKlose3")
+        link("https://github.com/fontanads/bootcamp_dsa_2021/", image('https://github.com/fontanads/bootcamp_dsa_2021/raw/main/pics/GitHub-Mark/PNG/GitHub-Mark-32px.png')),
+        link("https://github.com/fontanads/bootcamp_dsa_2021/", "Projeto no GitHub")
     ]
     layout(*myargs)
 # CUSTOM FOOTER END

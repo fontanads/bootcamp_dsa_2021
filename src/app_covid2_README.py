@@ -72,6 +72,10 @@ def main():
     - [2] Amaral F, Casaca W, Oishi CM, Cuminato JA. [Towards Providing Effective Data-Driven Responses to Predict the Covid-19 in São Paulo and Brazil](https://www.mdpi.com/1424-8220/21/2/540). Sensors. 2021; 21(2):540. [DOI: 10.3390/s21020540](https://doi.org/10.3390/s21020540)
     - [3] Figueiredo, Flávio. [S(E)IR, COVID-19 e o SUS](https://youtu.be/VtSz59jez-Y). Video aula do Docente da UFMG. 25 de Março de 2020. Disponível no [YouTube](https://youtu.be/VtSz59jez-Y).
     ''')
+
+    st.subheader('Rodapé para o Streamlit:')
+    st.markdown(r"[footer code made by @ChristianKlose3](https://twitter.com/ChristianKlose3)")
+    st.markdown(r"[Código fonte](https://discuss.streamlit.io/t/st-footer/6447)")
     
 if __name__ == '__main__':
     main()
