@@ -143,7 +143,7 @@ def estima_r0_dyn(df, estado, dates_tuple, window_size, eps):
     Y_gr, Y_gr_est, gamma_r = ols_estimative(param_name=x_str, df=df_temp,x_str=x_str,y_str=y_str, window_size=window_size,eps=eps, const=const)
 
     # traces fig Rdiff = gr*I
-    trace0_dRdt = get_trace(Y_gr.index, Y_gr.values, 'dR/dt',visible='legendonly')
+    trace0_dRdt = get_trace(Y_gr.index, Y_gr.values, 'dR/dt', visible='legendonly')
     trace1_dRdt = get_trace(Y_gr_est.index, Y_gr_est.values, 'OLS', color ='rgb(150,28,64)')
     
     # PARÂMETRO OLS GAMMA_D
@@ -163,10 +163,10 @@ def estima_r0_dyn(df, estado, dates_tuple, window_size, eps):
     y_str = 'I_diff_plus_ggI'
     x_str = 'IS_div_N'
 
-    # ggI_X        = df_temp['ggI']
-    # ggI_Y        = df_temp[y_str]
-    # ggI_X, ggI_Y = moving_avg(ggI_X, ggI_Y,window_size)
-    # ggI_X, ggI_Y = remove_outliers(ggI_X,ggI_Y,eps)
+    ggI_X        = df_temp['ggI']
+    ggI_Y        = df_temp[y_str]
+    ggI_X, ggI_Y = moving_avg(ggI_X, ggI_Y,window_size)
+    ggI_X, ggI_Y = remove_outliers(ggI_X,ggI_Y,eps)
 
     # I_diff = df_temp['I_diff']
     # ggI_Y        = df_temp[y_str]
@@ -176,18 +176,18 @@ def estima_r0_dyn(df, estado, dates_tuple, window_size, eps):
     Y_b, Y_b_est, beta = ols_estimative(param_name=x_str, df=df_temp,x_str=x_str,y_str=y_str, window_size=window_size,eps=eps, const=const)
 
     # traces fig Idiff = beta*SI/N - gg*I
-    trace0_dIdt = get_trace(   (Y_b).index,         (Y_b).values, r'beta*SI/N', visible='legendonly') # r'dI/dt - gamma_est*I' = beta*SI/N
-    trace1_dIdt = get_trace((Y_b_est).index, (Y_b_est).values, 'OLS', color ='rgb(150,28,64)')
+    # trace0_dIdt = get_trace(   (Y_b).index,         (Y_b).values, r'beta*SI/N', visible='legendonly') # r'dI/dt - gamma_est*I' = beta*SI/N
+    # trace1_dIdt = get_trace((Y_b_est).index, (Y_b_est).values, 'OLS', color ='rgb(150,28,64)')
 
     # trace0_dIdt = get_trace(   (ggI_Y-ggI_X).index,         (ggI_Y-ggI_X).values, r'dI/dt')
     # trace1_dIdt = get_trace((Y_b_est-ggI_X).index, (Y_b_est-ggI_X).values, 'OLS', color ='rgb(150,28,64)')
 
-    # trace0_dIdt = get_trace((I_diff).index, I_diff.values, r'dI/dt')
-    # trace1_dIdt = get_trace((Y_b_est-ggI_X).index, (Y_b_est-ggI_X).values, 'OLS', color ='rgb(150,28,64)')
+    trace0_dIdt = get_trace((Y_b-ggI_X).index, (Y_b-ggI_X).values, r'dI/dt', visible='legendonly')
+    trace1_dIdt = get_trace((Y_b_est-ggI_X).index, (Y_b_est-ggI_X).values, 'OLS', color ='rgb(150,28,64)')
 
     # prepare plotly view
     figs_all = make_subplots(rows=3, cols=2,
-                              subplot_titles=['I(t)','beta*SI/N', 'R(t)','dR/dt','D(t)','dD/dt'],
+                              subplot_titles=['I(t)','dI/dt', 'R(t)','dR/dt','D(t)','dD/dt'],
                               shared_xaxes = True,
                               shared_yaxes = False,  # this makes the hours appear only on the left
                               )
@@ -361,12 +361,38 @@ def main():
         with col2:
             st.subheader(r"Visualização das séries temporais do modelo SIRD usadas nas estimações:")
             st.plotly_chart(figs_all)
-            
+        
+        st.subheader(r'Notas:')
+        st.markdown(r''' 
+                    - $I(t)$ e $dI/dt$* são os infectados ativos e a taxa de crescimento dos infectados ativos
+                    - $R(t)$ e $dR/dt$ são os recuperados e a taxa de crescimento dos recuperados
+                    - $D(t)$ e $dD/dt$ são os óbitos e a taxa de crescimento dos óbitos
+                    - as séries originais $dx/dt$ estão desligadas por padrão, para que você visualize o reultado do modelo que as aproxima
+                    - ainda preciso melhora a estimativa de $\beta$, pois como você pode notar há um "atraso" na troca de sinal de $dI/dt$ em relação
+                    ao momento que $I(t)$ realmente começa a decrescer. Além disso, como $S/N$ (proporção de susceptíveis) varia muito pouco na janela,
+                    a curva $dI/dt$ realmente parece ficar proporcional à $I(t)$ por um fator $\beta \times (S/N - \gamma)$.
+                    Acredito que isso melhora se usar uma estimação a partir da integral das séries, conforme os artigos sugerem.
+                    ''')
     # print plots
     with st.beta_container():
         st.subheader(r"Aplicando a estimativa com janela uma deslizante:")
-        st.markdown(r"Começando a partir da data de início, deslocando-se a cada ``stride`` dias e estimando $\beta(t)$ e $\gamma(t)$ numa janela de ``J`` dias para frente.")
+        st.markdown(r'''
+                     Começando a partir da data de início, deslocando-se a cada ``stride`` dias e estimando $\beta(t)$ e $\gamma(t)$ numa janela de ``J`` dias para frente.  
+
+                     Aqui as curas são bem sensíveis aos parâmetros do menu lateral, pois se você diminui muito a janela para estimar as variáveis epidemiológicas, ao deslocar para as próximas janelas a mudança pode ser muito brusca.
+                     ''')
         st.plotly_chart(figs_R0t)
+        st.markdown(r'''
+                     Lembrando a interpretação dos parâmetros epidemiológicos do modelo SIR(D):
+                     - $\beta(t)$ é o grau de contágio, a chance de uma pessoa saudável se contaminar ao entrar em contato com as pessoas infectadas
+                     - $R_0(t)$ é a medida de quantas pessoas são contaminadas diariamente por uma pessoa infectada (a linha em 1 está destacada pois idealmente 
+                     a pandemia acabaria espontaneamente, ao longo do tempo, se conseguíssemos manter $R<1$ tempo suficiente)
+                     - $T_{\text{infec}}$ é o tempo médio que uma pessoa infectada permanece transmitindo o vírus antes de se recuperar (também podemos pensar na relação que isso tem no sistema de saúde regional,
+                     por isso mantive a linha estática indicando esse valor estimado com a janela inteira, a fim de comparar com a janela deslizante; 
+                     mudando o último marcador para ```False`` você elimina a variação de $\gamma$, a taxa de recuperação, na estimativa de $\beta$)
+                     - a dependência no tempo acontece por tentar estimar o parâmetro em janelas "mais curtas" em relação ao tamanho completo do dataset (pode occorrer algum erro ao selecionar uma faixa de datas menor que a J),
+                     considerando que na história da série houve muita mudança no cenário de medidas não-farmacêuticas de contenção da epidemia, no país e nas regiões.                     
+                     ''')
 
     
 @st.cache
