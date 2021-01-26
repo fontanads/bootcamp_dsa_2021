@@ -5,7 +5,9 @@ Produções realizadas no [Bootcamp de Data Science Aplicada da Alura](https://w
 Início dia 04/11/2020.
 
 ## Módulo 01: Trabalhando com dados do DataSUS
-[Projeto 01](./Bruno_Fontana_da_Silva_M01.ipynb)
+
+No primeiro mmódulo
+:green_book: [Projeto 01](./Bruno_Fontana_da_Silva_M01.ipynb)
 
 ## Módulo 02: Dados de Vacinação
 
@@ -17,9 +19,10 @@ Neste módulo, foram analisados os dados [Pesquisa Nacional de Saúde do Escolar
 
 ## Módulo 04: Análise de Séries Temporais com dados de COVID-19 no Brasil
 
-[Página do Aplicativo no Streamlit](https://share.streamlit.io/fontanads/bootcamp_dsa_2021/main/src/app.py)
 
-[Código Fonte](./src/)
+:notebook_with_decorative_cover: :iphone: [Página do Aplicativo no Streamlit](https://share.streamlit.io/fontanads/bootcamp_dsa_2021/main/src/app.py)
+
+:books: [Código Fonte](./src/)
 
 ## Módulos 05 e 06: Aplicações de Aprendizagem de Máquina na área da Saúde
 
