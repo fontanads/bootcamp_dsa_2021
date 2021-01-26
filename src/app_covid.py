@@ -1,3 +1,5 @@
+# Primeira versão com estatísticas descritivas de um dataset fixo
+
 import streamlit as st
 import pandas as pd
 import numpy as np

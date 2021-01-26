@@ -1,3 +1,5 @@
+# Segunda versão, modelo SIR e aquisição do dataset a partir da fonte
+
 import streamlit as st
 import pandas as pd
 import numpy as np
