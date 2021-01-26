@@ -2,6 +2,7 @@
 
 Produções realizadas no [Bootcamp de Data Science Aplicada da Alura](https://www.alura.com.br/bootcamp/data-science-aplicada/matriculas-abertas).
 
+Na primeira edição, a temática foi **Saúde**, explorando bases de dados abertas de várias fontes ([DataSUS Tabnet](https://datasus.saude.gov.br/informacoes-de-saude-tabnet/), [pesquisa de saúde escolar do IBGE](https://www.ibge.gov.br/estatisticas/sociais/educacao/9134-pesquisa-nacional-de-saude-do-escolar.html?=&t=o-que-e), [dados de COVID-19 do governo federal](https://covid.saude.gov.br/), [dados de COVID-19 do hospital Sírilo Libanês](https://www.kaggle.com/S%C3%ADrio-Libanes/covid19), dentre outras).
 Início dia 04/11/2020.
 
 ## Módulo 01: Trabalhando com dados do DataSUS
