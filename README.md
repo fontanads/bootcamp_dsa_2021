@@ -19,3 +19,5 @@ Início dia 04/11/2020.
 [Código Fonte](./src/)
 
 ## Módulos 05 e 06: Aplicações de Aprendizagem de Máquina na área da Saúde
+
+Em andamento.
