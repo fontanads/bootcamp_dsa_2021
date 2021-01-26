@@ -1,6 +1,6 @@
 # Bootcamp DSA 2021 da Alura Cursos Online
 
-Produções realizadas no Bootcamp de Data Science Aplicada da Alura.
+Produções realizadas no [Bootcamp de Data Science Aplicada da Alura](https://www.alura.com.br/bootcamp/data-science-aplicada/matriculas-abertas).
 
 Início dia 04/11/2020.
 
