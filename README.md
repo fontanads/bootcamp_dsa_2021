@@ -7,6 +7,7 @@ Produções realizadas no [Bootcamp de Data Science Aplicada da Alura](https://w
 - [pesquisa de saúde escolar do IBGE](https://www.ibge.gov.br/estatisticas/sociais/educacao/9134-pesquisa-nacional-de-saude-do-escolar.html?=&t=o-que-e), 
 - [dados de COVID-19 do governo federal](https://covid.saude.gov.br/), 
 - [dados de COVID-19 do hospital Sírilo Libanês](https://www.kaggle.com/S%C3%ADrio-Libanes/covid19), 
+
 dentre outras.
 
 :man_technologist: Algumas _hard-skills_ desenvolvidas no curso:
