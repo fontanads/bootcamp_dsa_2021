@@ -7,9 +7,7 @@ Início dia 04/11/2020.
 ## Módulo 01: Trabalhando com dados do DataSUS
 
 No primeiro módulo tento analisar características importantes dos dados de procedimentos hospitalares. Sazonalidade no número de óbitos em cada ano é um ponto de destaque. Também enumero a natureza das doenças que causam mais óbitos a partir dos dados do SUS entre 2011 e 2018. Doenças respiratórias são a $4^\text{a}$ causa de morte mais frequente, correspondendo a aproximadamente 
-```math 
-31\%
-```
+<pre xml:lang="latex">31\%</pre>
 dos óbitos em cada ano.
 
 :green_book: [Projeto 01](./Bruno_Fontana_da_Silva_M01.ipynb)
