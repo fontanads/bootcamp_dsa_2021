@@ -52,7 +52,8 @@ Optei por dedicar a maior parte do tempo explorando a ferramenta [Streamlit](htt
 
 ## Módulos 05 e 06: Aplicações de Aprendizagem de Máquina na área da Saúde
 
-:notebook: Projeto em andamento.
+Neste projeto, estou utilizando o conjunto de dados [COVID-19 - Clinical Data to assess diagnosis](https://www.kaggle.com/S%C3%ADrio-Libanes/covid19), disponibilizado pelo Time de Inteligência de dados do Hospital Sírio-Libanês. São informações de pacientes cuja contaminação com o vírus COVID-19 foi confirmada. O objetivo principal do projeto é analisar os dados e encontrar características que possam distinguir pacientes que irão demandar internação na ICU dos que não irão desenvolver sintomas graves o suficiente para essa internação.
 
+:green_book: Acesse o meu [Projeto Final](https://colab.research.google.com/drive/1puq4af0SnKjw5rs4vjC9NEnelQj1x6mY?usp=sharing) diretamente no Google Colab.
 
-Em andamento.
+Como faz parte do projeto final para certificação do bootcamp, este último caderno em Jupyter é mais longo e mais detalhado, cumprindo diversos requisitos de avaliação e envolvendo muitos dos conhecimentos trabalhados na formação.
